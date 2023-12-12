@@ -1,4 +1,4 @@
-package main
+package day01
 
 import "testing"
 
@@ -20,7 +20,7 @@ func TestDecodeCalibration(t *testing.T) {
 		{"7pqrstsixteen", 76},
 	}
 	for _, tt := range tests {
-		got, err := decodeCalibration(tt.input)
+		got, err := decodeCalibration(tt.input, parseDigitPart2)
 		if err != nil {
 			t.Errorf("decodeCalibration(%q) error %v, want %v", tt.input, err, nil)
 		}
@@ -39,7 +39,7 @@ func TestTotalCalibration(t *testing.T) {
 		{[]string{"1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"}, 142},
 	}
 	for _, tt := range tests {
-		got, err := totalCalibration(tt.input)
+		got, err := totalCalibration(tt.input, parseDigitPart2)
 		if err != nil {
 			t.Errorf("totalCalibration(%q) error %v, want %v", tt.input, err, nil)
 		}

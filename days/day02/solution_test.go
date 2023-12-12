@@ -1,4 +1,4 @@
-package main
+package day02
 
 import (
 	"testing"
@@ -9,16 +9,27 @@ import (
 func TestParseGame(t *testing.T) {
 	tests := []struct {
 		input string
-		want  *Game
+		want  *game
 	}{
 		{
 			"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
-			&Game{
+			&game{
 				ID: 1,
-				Samples: []CubeSet{
+				Samples: []cubeSet{
 					{Red: 4, Green: 0, Blue: 3},
 					{Red: 1, Green: 2, Blue: 6},
 					{Red: 0, Green: 2, Blue: 0},
+				},
+			},
+		},
+		{
+			"Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
+			&game{
+				ID: 2,
+				Samples: []cubeSet{
+					{Red: 0, Green: 2, Blue: 1},
+					{Red: 1, Green: 3, Blue: 4},
+					{Red: 0, Green: 1, Blue: 1},
 				},
 			},
 		},
@@ -73,7 +84,7 @@ func TestGamePossible(t *testing.T) {
 	}
 }
 
-func TestSumPossibleGameIDs(t *testing.T) {
+func TestPart1(t *testing.T) {
 	tests := []struct {
 		input string
 		want  int
@@ -88,13 +99,14 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`,
 		},
 	}
 	for _, tt := range tests {
-		got, err := sumPossibleGameIDs(tt.input)
+		challenge := Input(tt.input)
+		got, err := challenge.Part1()
 		if err != nil {
-			t.Fatalf("sumPossibleGameIDs(%q) error %v, want %v", tt.input, err, nil)
+			t.Fatalf("%T.Part1() error %v, want %v", challenge, err, nil)
 		}
 
 		if got != tt.want {
-			t.Errorf("sumPossibleGameIDs(%q) = %v, want %v", tt.input, got, tt.want)
+			t.Errorf("%T.Part1() = %v, want %v", challenge, got, tt.want)
 		}
 	}
 }
@@ -102,15 +114,15 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`,
 func TestMinimumPool(t *testing.T) {
 	tests := []struct {
 		input string
-		want  CubeSet
+		want  cubeSet
 	}{
 		{
 			"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
-			CubeSet{Red: 4, Green: 2, Blue: 6},
+			cubeSet{Red: 4, Green: 2, Blue: 6},
 		},
 		{
 			"Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
-			CubeSet{Red: 1, Green: 3, Blue: 4},
+			cubeSet{Red: 1, Green: 3, Blue: 4},
 		},
 	}
 	for _, tt := range tests {
@@ -164,7 +176,7 @@ func TestMinimumPoolPower(t *testing.T) {
 	}
 }
 
-func TestSumMinimumPoolPowers(t *testing.T) {
+func TestPart2(t *testing.T) {
 	tests := []struct {
 		input string
 		want  int
@@ -179,13 +191,14 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`,
 		},
 	}
 	for _, tt := range tests {
-		got, err := sumMinimumPoolPowers(tt.input)
+		challenge := Input(tt.input)
+		got, err := challenge.Part2()
 		if err != nil {
-			t.Fatalf("sumMinimumPoolPowers(%q) error %v, want %v", tt.input, err, nil)
+			t.Fatalf("%T.Part2() error %v, want %v", challenge, err, nil)
 		}
 
 		if got != tt.want {
-			t.Errorf("sumMinimumPoolPowers(%q) = %v, want %v", tt.input, got, tt.want)
+			t.Errorf("%T.Part2() = %v, want %v", challenge, got, tt.want)
 		}
 	}
 }

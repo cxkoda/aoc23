@@ -1,30 +1,31 @@
-package main
+package day02
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	_ "embed"
+
+	"github.com/cxkoda/aoc23/days"
 )
 
-type Game struct {
+type game struct {
 	ID      int
-	Samples []CubeSet
+	Samples []cubeSet
 }
 
-type CubeSet struct {
+type cubeSet struct {
 	Red   int
 	Green int
 	Blue  int
 }
 
-func (s *CubeSet) Power() int {
+func (s *cubeSet) Power() int {
 	return s.Red * s.Green * s.Blue
 }
 
-func parseGame(s string) (*Game, error) {
-	var g Game
+func parseGame(s string) (*game, error) {
+	var g game
 	_, err := fmt.Sscanf(s, "Game %d", &g.ID)
 	if err != nil {
 		return nil, fmt.Errorf("parsing game id in %q: %v", s, err)
@@ -32,7 +33,7 @@ func parseGame(s string) (*Game, error) {
 
 	samples := strings.Split(s, ":")[1]
 	for _, sample := range strings.Split(samples, ";") {
-		var s CubeSet
+		var s cubeSet
 
 		for _, cubes := range strings.Split(sample, ",") {
 			var color string
@@ -57,7 +58,7 @@ func parseGame(s string) (*Game, error) {
 	return &g, nil
 }
 
-func (g *Game) isPossible() bool {
+func (g *game) isPossible() bool {
 	for _, s := range g.Samples {
 		if s.Red > 12 || s.Green > 13 || s.Blue > 14 {
 			return false
@@ -67,8 +68,8 @@ func (g *Game) isPossible() bool {
 	return true
 }
 
-func (g *Game) minimumPool() *CubeSet {
-	var min CubeSet
+func (g *game) minimumPool() *cubeSet {
+	var min cubeSet
 	for _, s := range g.Samples {
 		if s.Red > min.Red {
 			min.Red = s.Red
@@ -117,27 +118,18 @@ func sumMinimumPoolPowers(games string) (int, error) {
 }
 
 //go:embed input
-var input string
+var input Input
 
-func run() error {
-	ans1, err := sumPossibleGameIDs(input)
-	if err != nil {
-		return err
-	}
-	fmt.Printf("answer 1: %d\n", ans1)
+type Input string
 
-	ans2, err := sumMinimumPoolPowers(input)
-	if err != nil {
-		return err
-	}
-	fmt.Printf("answer 2: %d\n", ans2)
-
-	return nil
+func init() {
+	days.MustRegister(2, input)
 }
 
-func main() {
-	if err := run(); err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(1)
-	}
+func (in Input) Part1() (int, error) {
+	return sumPossibleGameIDs(string(in))
+}
+
+func (in Input) Part2() (int, error) {
+	return sumMinimumPoolPowers(string(in))
 }
