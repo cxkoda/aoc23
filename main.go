@@ -9,6 +9,7 @@ import (
 	_ "github.com/cxkoda/aoc23/days/day01"
 	_ "github.com/cxkoda/aoc23/days/day02"
 	_ "github.com/cxkoda/aoc23/days/day03"
+	_ "github.com/cxkoda/aoc23/days/day13"
 )
 
 func main() {

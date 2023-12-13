@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"sort"
+	"time"
 )
 
 type Solution interface {
@@ -36,12 +37,14 @@ func EvaluateAll(w io.Writer) error {
 	for _, d := range ds {
 		sol := solutions[d]
 		for p, f := range []func() (int, error){sol.Part1, sol.Part2} {
+			now := time.Now()
 			ans, err := f()
 			if err != nil {
 
 				return fmt.Errorf("%T() error %v", f, err)
 			}
-			if _, err := fmt.Fprintf(w, "Day %d, part %d: %d\n", d, p, ans); err != nil {
+			elapsed := time.Since(now)
+			if _, err := fmt.Fprintf(w, "Day %d, part %d [%v]: %d\n", d, p, elapsed, ans); err != nil {
 				return fmt.Errorf("fmt.Fprintf(%T, ...) error %v", w, err)
 			}
 		}
