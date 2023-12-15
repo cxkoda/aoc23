@@ -33,7 +33,7 @@ type Box struct {
 	Lenses []Lens
 }
 
-func (b *Box) AddLens(lens Lens) {
+func (b *Box) InsertLens(lens Lens) {
 	for i, l := range b.Lenses {
 		if l.Label == lens.Label {
 			b.Lenses[i] = lens
@@ -71,7 +71,7 @@ func (b *Boxes) Execute(action string) error {
 		return fmt.Errorf("invalid focal length %v", action[len-1:])
 	}
 
-	box.AddLens(Lens{
+	box.InsertLens(Lens{
 		Label:       action[:len-2],
 		FocalLength: focalLength,
 	})
