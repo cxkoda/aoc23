@@ -40,7 +40,6 @@ func EvaluateAll(w io.Writer) error {
 			now := time.Now()
 			ans, err := f()
 			if err != nil {
-
 				return fmt.Errorf("%T() error %v", f, err)
 			}
 			elapsed := time.Since(now)
